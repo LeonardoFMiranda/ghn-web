@@ -1,0 +1,40 @@
+ .detailsContainer {
+  width: 100%;
+  max-width: 700px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 24px;
+  box-shadow: 0 4px 32px 0 #0f172a22;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  animation: fadeIn 1s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.detailsImage {
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  border-radius: 18px;
+  margin: 2rem auto 1.5rem auto;
+  box-shadow: 0 2px 16px 0 #38bdf822;
+  display: block;
+  object-fit: cover;
+}
+.detailsTitle {
+  font-size: 2rem;
+  color: #fbbf24;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+}
+.detailsPlaceholder {
+  text-align: center;
+  color: #38bdf8;
+  font-size: 1.2rem;
+  padding: 2rem 0;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

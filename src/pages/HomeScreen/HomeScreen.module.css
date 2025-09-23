@@ -1,0 +1,199 @@
+.feedCategoryButton {
+    background: #1e293b;
+    color: #38bdf8;
+    border: none;
+    border-radius: 16px;
+    padding: 0.5rem 1.2rem;
+    margin: 0 0.5rem 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px 0 #38bdf822;
+}
+.feedCategoryButton:hover {
+    background: #38bdf8;
+    color: #0f172a;
+}
+.activeCategory {
+    background: #38bdf8;
+    color: #0f172a;
+    border: 2px solid #fbbf24;
+    box-shadow: 0 4px 16px 0 #fbbf2422;
+}
+.feedContainer {
+    width: 100%;
+    max-width: 900px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 24px;
+    box-shadow: 0 4px 32px 0 #0f172a22;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    animation: fadeIn 1s;
+}
+
+.feedTitle {
+    font-size: 2rem;
+    color: #38bdf8;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.feedNavContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.feedSearch {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.8rem 1rem;
+    margin: 0 auto 2rem auto;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px 0 #0f172a22;
+    transition: box-shadow 0.2s;
+}
+
+.feedCategoryContainer {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.newsListPlaceholder {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    color: #fbbf24;
+    font-size: 1.2rem;
+    padding: 2rem 0;
+}
+
+.newsList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.newsCard {
+    background: linear-gradient(135deg, #0f172a 60%, #38bdf8 100%);
+    border-radius: 20px;
+    box-shadow: 0 4px 32px 0 #0f172a44;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.5s, filter 0.5s;
+    opacity: 0;
+    filter: blur(12px);
+    animation: smoothFadeIn 0.7s forwards;
+}
+
+.newsCard:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 8px 40px 0 #38bdf8aa;
+}
+
+.newsImageWrap {
+    width: 100%;
+    height: 180px;
+    background: #1e293b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.newsImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-bottom: 2px solid #38bdf8;
+}
+
+.newsImagePlaceholder {
+    font-size: 3rem;
+    color: #38bdf8;
+    background: #1e293b;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.newsContent {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.newsTitle {
+    font-size: 1.2rem;
+    color: #fbbf24;
+    font-weight: 700;
+    margin: 0;
+}
+
+.newsMeta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: #94a3b8;
+}
+
+.newsSource {
+    font-weight: 600;
+    color: #38bdf8;
+}
+
+.newsDate {
+    font-style: italic;
+}
+
+.newsDescription {
+    color: #fff;
+    font-size: 1rem;
+    margin: 0.5rem 0 0.5rem 0;
+}
+
+.newsLink {
+    align-self: flex-end;
+    background: #38bdf8;
+    color: #0f172a;
+    padding: 0.5rem 1.2rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 8px 0 #38bdf822;
+}
+
+.newsLink:hover {
+    background: #fbbf24;
+    color: #0f172a;
+}
+
+@keyframes smoothFadeIn {
+    0% {
+        opacity: 0;
+        filter: blur(12px);
+        transform: translateY(20px);
+    }
+
+    80% {
+        opacity: 1;
+        filter: blur(0px);
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 1;
+        filter: blur(0px);
+        transform: translateY(0);
+    }
+}
