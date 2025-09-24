@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomeScreen.module.css';
 import type { Article } from '../../types/news';
+import { useFavorites } from '../../context/FavoritesContext';
+import { useArticlesCache } from '../../context/ArticlesCacheContext';
 
 const API_URL = 'https://newsapi.org/v2/everything';
-const API_KEY = 'd07cf00103384ceb86580e20be30d23e';
+const API_KEY = import.meta.env.VITE_API_KEY;
 const PAGE_SIZE = 10;
 const categories = [
     { label: 'Tudo', value: 'news' },
@@ -14,6 +16,7 @@ const categories = [
     { label: 'Saúde', value: 'health' },
     { label: 'Ciência', value: 'science' },
     { label: 'Entretenimento', value: 'entertainment' },
+    { label: 'Favoritos', value: 'favorites' }
 ];
 
 const HomeScreen: React.FC = () => {
@@ -24,19 +27,48 @@ const HomeScreen: React.FC = () => {
     const [page, setPage] = useState(1);
     const [isSearching, setIsSearching] = useState(false);
     const [category, setCategory] = useState(categories[0].value);
+    const { favorites, addFavorite, removeFavorite } = useFavorites();
+    const { cache, setCache } = useArticlesCache();
     const navigate = useNavigate();
 
     const fetchArticles = async (currentPage: number, selectedCategory: string) => {
         setLoading(true);
         try {
-            const res = await fetch(`${API_URL}?q=${selectedCategory}&pageSize=${PAGE_SIZE}&page=${currentPage}&apiKey=${API_KEY}`);
-            const data = await res.json();
-            if (currentPage === 1) {
-                setArticles(data.articles || []);
-                setRawArticles(data.articles || []);
+            if (selectedCategory === 'favorites') {
+                const stored = localStorage.getItem('favorites');
+                const favArticles = stored ? JSON.parse(stored) as Article[] : [];
+                setArticles(favArticles);
+                setRawArticles(favArticles);
             } else {
-                setArticles(prev => [...prev, ...(data.articles || [])]);
-                setRawArticles(prev => [...prev, ...(data.articles || [])]);
+                if (cache[selectedCategory]?.[currentPage]) {
+                    const cachedArticles = cache[selectedCategory][currentPage];
+                    if (currentPage === 1) {
+                        setArticles(cachedArticles);
+                        setRawArticles(cachedArticles);
+                    } else {
+                        setArticles(prev => [...prev, ...cachedArticles]);
+                        setRawArticles(prev => [...prev, ...cachedArticles]);
+                    }
+                    setLoading(false);
+                    return;
+                }
+                const res = await fetch(`${API_URL}?q=${selectedCategory}&pageSize=${PAGE_SIZE}&page=${currentPage}&apiKey=${API_KEY}`);
+                const data = await res.json();
+                const newArticles = data.articles || [];
+                setCache(prev => ({
+                    ...prev,
+                    [selectedCategory]: {
+                        ...(prev[selectedCategory] || {}),
+                        [currentPage]: newArticles,
+                    }
+                }));
+                if (currentPage === 1) {
+                    setArticles(newArticles);
+                    setRawArticles(newArticles);
+                } else {
+                    setArticles(prev => [...prev, ...newArticles]);
+                    setRawArticles(prev => [...prev, ...newArticles]);
+                }
             }
         } catch (err) {
             setError('Erro ao buscar notícias.');
@@ -79,6 +111,10 @@ const HomeScreen: React.FC = () => {
         }
     };
 
+    const isFavorite = (url: string) => {
+        return favorites.some(fav => fav.url === url);
+    }
+
     return (
         <div className={styles.feedContainer}>
             <h2 className={styles.feedTitle}>Descubra as últimas notícias</h2>
@@ -106,6 +142,19 @@ const HomeScreen: React.FC = () => {
                 {articles.map((article, idx) => (
                     <div className={styles.newsCard} key={idx}>
                         <div className={styles.newsImageWrap}>
+                            <button
+                                className={isFavorite(article.url) ? styles.favStarActive : styles.favStar}
+                                onClick={e => {
+                                    e.stopPropagation();
+                                    if (isFavorite(article.url)) {
+                                        removeFavorite(article.url);
+                                    } else {
+                                        addFavorite(article);
+                                    }
+                                }}
+                            >
+                                {isFavorite(article.url) ? '★' : '☆'}
+                            </button>
                             {article.urlToImage ? (
                                 <img src={article.urlToImage} alt={article.title} className={styles.newsImage} />
                             ) : (
@@ -121,6 +170,8 @@ const HomeScreen: React.FC = () => {
                                 </span>
                             </div>
                             <p className={styles.newsDescription}>{article.description}</p>
+                        </div>
+                        <div className={styles.newsActions}>
                             <button
                                 className={styles.newsLink}
                                 onClick={() => navigate(`/details/${idx}`, { state: { article } })}
