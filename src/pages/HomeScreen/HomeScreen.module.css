@@ -9,12 +9,13 @@
     cursor: pointer;
     z-index: 2;
     transition: color 0.2s, transform 0.2s;
-    filter: drop-shadow(0 2px 8px #0f172a44);
 }
+
 .favStar:hover {
     color: #fff200;
     transform: scale(1.15);
 }
+
 .favStarActive {
     position: absolute;
     top: -18px;
@@ -25,8 +26,8 @@
     color: #fff200;
     cursor: pointer;
     z-index: 2;
-    filter: drop-shadow(0 2px 8px #0f172a44);
 }
+
 .feedCategoryButton {
     background: #1e293b;
     color: #38bdf8;
@@ -39,198 +40,293 @@
     cursor: pointer;
     box-shadow: 0 2px 8px 0 #38bdf822;
 }
+
 .feedCategoryButton:hover {
     background: #38bdf8;
     color: #0f172a;
 }
+
 .activeCategory {
     background: #38bdf8;
     color: #0f172a;
     border: 2px solid #fbbf24;
     box-shadow: 0 4px 16px 0 #fbbf2422;
 }
+
 .feedContainer {
-    width: 100%;
-    max-width: 900px;
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 24px;
-    box-shadow: 0 4px 32px 0 #0f172a22;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    animation: fadeIn 1s;
+    max-width: 1100px;
+    margin: 40px auto 0 auto;
+    padding: 0 24px 40px 24px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 
 .feedTitle {
-    font-size: 2rem;
-    color: #38bdf8;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    font-weight: 600;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #d7263d;
+    margin: 16px 0 16px 0;
+    letter-spacing: -1px;
+    text-align: left;
+    border-left: 6px solid #d7263d;
+    padding-left: 12px;
+}
+
+.feedFilters {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .feedNavContainer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 1.5rem;
+    gap: 24px;
+    flex-wrap: wrap;
 }
 
 .feedSearch {
-    width: 100%;
-    max-width: 400px;
-    padding: 0.8rem 1rem;
-    margin: 0 auto 2rem auto;
-    border-radius: 12px;
-    border: none;
-    font-size: 1rem;
-    box-shadow: 0 2px 8px 0 #0f172a22;
-    transition: box-shadow 0.2s;
+    flex: 1;
+    padding: 12px 18px;
+    font-size: 1.1rem;
+    border: 1.5px solid #d7263d;
+    border-radius: 8px;
+    outline: none;
+    transition: border 0.2s;
+    background: #f9f9f9;
+}
+
+.feedSearch:focus {
+    border-color: #1a1a1a;
 }
 
 .feedCategoryContainer {
     display: flex;
-    justify-content: center;
-    gap: 0.4rem;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-.newsListPlaceholder {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    color: #fbbf24;
-    font-size: 1.2rem;
-    padding: 2rem 0;
+.searchScrolled {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    z-index: 100;
+    background: #fff;
+    padding: 10px;
+    margin-top: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.feedCategoryButton {
+    background: #f4f4f4;
+    color: #333;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.feedCategoryButton:hover {
+    background: #d7263d;
+    color: #fff;
+}
+
+.activeCategory {
+    background: #d7263d;
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 4px 16px rgba(215, 38, 61, 0.08);
 }
 
 .newsList {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
+    gap: 32px;
+    margin-top: 16px;
 }
 
 .newsCard {
-    background: linear-gradient(135deg, #0f172a 60%, #38bdf8 100%);
-    border-radius: 20px;
-    box-shadow: 0 4px 32px 0 #0f172a44;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s, box-shadow 0.2s, opacity 0.5s, filter 0.5s;
-    opacity: 0;
-    filter: blur(12px);
-    animation: smoothFadeIn 0.7s forwards;
+    transition: transform 0.15s, box-shadow 0.15s;
+    cursor: pointer;
+    border: 1px solid #f0f0f0;
 }
 
 .newsCard:hover {
-    transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 8px 40px 0 #38bdf8aa;
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 32px rgba(215, 38, 61, 0.10);
+    border-color: #d7263d22;
 }
 
 .newsImageWrap {
+    position: relative;
     width: 100%;
     height: 180px;
-    background: #1e293b;
+    background: #f4f4f4;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
 }
 
 .newsImage {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-bottom: 2px solid #38bdf8;
+    border-bottom: 1px solid #eee;
+}
+
+.notFoundImage {
+    width: 450px;
+    height: 350px;
+    margin-bottom: 16px;
 }
 
 .newsImagePlaceholder {
     font-size: 3rem;
-    color: #38bdf8;
-    background: #1e293b;
-    width: 100%;
-    height: 100%;
+    color: #d7263d;
+    background: #f4f4f4;
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100%;
+}
+
+.favStar,
+.favStarActive {
+    position: absolute;
+    top: -16px;
+    right: -22px;
+    font-size: 1.7rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+    transition: color 0.2s, text-shadow 0.2s;
+}
+
+.favStar:hover,
+.favStarActive:hover {
+    position: absolute;
+    top: -16px;
+    right: -22px;
+    font-size: 1.7rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+    transition: color 0.2s, text-shadow 0.2s;
+}
+
+.favStar {
+    color: #bbb;
+}
+
+.favStarActive {
+    color: #ece911;
 }
 
 .newsContent {
-    padding: 1.5rem;
+    padding: 18px 16px 8px 16px;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.7rem;
+    gap: 8px;
 }
 
 .newsTitle {
-    font-size: 1.2rem;
-    color: #fbbf24;
+    font-size: 1.25rem;
     font-weight: 700;
-    margin: 0;
+    color: #222;
+    margin-bottom: 4px;
+    line-height: 1.2;
 }
 
 .newsMeta {
     display: flex;
-    justify-content: space-between;
+    gap: 12px;
     font-size: 0.95rem;
-    color: #94a3b8;
+    color: #888;
+    margin-bottom: 6px;
 }
 
 .newsSource {
     font-weight: 600;
-    color: #38bdf8;
+    color: #d7263d;
 }
 
 .newsDate {
-    font-style: italic;
+    color: #555;
 }
 
 .newsDescription {
-    color: #fff;
     font-size: 1rem;
-    margin: 0.5rem 0 0.5rem 0;
+    color: #444;
+    margin-bottom: 0;
+    line-height: 1.5;
+}
+
+.newsActions {
+    padding: 10px 16px 16px 16px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .newsLink {
-    align-self: flex-end;
-    background: #38bdf8;
-    color: #0f172a;
-    padding: 0.5rem 1.2rem;
-    border-radius: 12px;
-    text-decoration: none;
+    background: #d7263d;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-size: 1rem;
     font-weight: 600;
-    transition: background 0.2s, color 0.2s;
-    box-shadow: 0 2px 8px 0 #38bdf822;
+    cursor: pointer;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(215, 38, 61, 0.08);
 }
 
 .newsLink:hover {
-    background: #fbbf24;
-    color: #0f172a;
+    background: #a81c2a;
 }
 
-.newsActions{
-    display: flex;
-    justify-content: flex-end;
-    margin: auto 20px 20px 0;
-    gap: 0.5rem;
+.newsListPlaceholder {
+    grid-column: 1/-1;
+    text-align: center;
+    color: #d7263d;
+    font-size: 1.2rem;
+    padding: 24px 0;
+    font-weight: 600;
 }
 
-@keyframes smoothFadeIn {
-    0% {
-        opacity: 0;
-        filter: blur(12px);
-        transform: translateY(20px);
+@media (max-width: 700px) {
+    .feedContainer {
+        padding: 0 8px 24px 8px;
     }
 
-    80% {
-        opacity: 1;
-        filter: blur(0px);
-        transform: translateY(0);
+    .newsList {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
-    100% {
-        opacity: 1;
-        filter: blur(0px);
-        transform: translateY(0);
+    .feedTitle {
+        font-size: 2rem;
+    }
+
+    .feedNavContainer {
+        gap: 12px;
     }
 }

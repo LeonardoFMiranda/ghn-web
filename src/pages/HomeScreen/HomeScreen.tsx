@@ -4,6 +4,7 @@ import styles from './HomeScreen.module.css';
 import type { Article } from '../../types/news';
 import { useFavorites } from '../../context/FavoritesContext';
 import { useArticlesCache } from '../../context/ArticlesCacheContext';
+import notFoundImg from '../../assets/notFound.png';
 
 const API_URL = 'https://newsapi.org/v2/everything';
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -52,7 +53,8 @@ const HomeScreen: React.FC = () => {
                     setLoading(false);
                     return;
                 }
-                const res = await fetch(`${API_URL}?q=${selectedCategory}&pageSize=${PAGE_SIZE}&page=${currentPage}&apiKey=${API_KEY}`);
+                const res = await fetch(`${API_URL}?q=${selectedCategory}&pageSize=${PAGE_SIZE}&page=${currentPage}&language=pt&apiKey=${API_KEY}`);
+
                 const data = await res.json();
                 const newArticles = data.articles || [];
                 setCache(prev => ({
@@ -120,7 +122,7 @@ const HomeScreen: React.FC = () => {
             <h2 className={styles.feedTitle}>Descubra as últimas notícias</h2>
             <div className={styles.feedFilters}>
                 <div className={styles.feedNavContainer}>
-                    <input className={styles.feedSearch} type="text" onChange={handleSearch} placeholder="Buscar..." />
+                    <input className={styles.feedSearch} type="text" onChange={handleSearch} placeholder="Busca rápida..." />
                     <div className={styles.feedCategoryContainer}>
                         {categories.map((cat, idx) => {
                             const isActive = category === cat.value;
@@ -137,52 +139,62 @@ const HomeScreen: React.FC = () => {
                     </div>
                 </div>
             </div>
-            {error && <div className={styles.newsListPlaceholder}>{error}</div>}
-            <div className={styles.newsList}>
-                {articles.map((article, idx) => (
-                    <div className={styles.newsCard} key={idx}>
-                        <div className={styles.newsImageWrap}>
-                            <button
-                                className={isFavorite(article.url) ? styles.favStarActive : styles.favStar}
-                                onClick={e => {
-                                    e.stopPropagation();
-                                    if (isFavorite(article.url)) {
-                                        removeFavorite(article.url);
-                                    } else {
-                                        addFavorite(article);
-                                    }
-                                }}
-                            >
-                                {isFavorite(article.url) ? '★' : '☆'}
-                            </button>
-                            {article.urlToImage ? (
-                                <img src={article.urlToImage} alt={article.title} className={styles.newsImage} />
-                            ) : (
-                                <div className={`${styles.newsImage} ${styles.newsImagePlaceholder}`}>📰</div>
-                            )}
-                        </div>
-                        <div className={styles.newsContent}>
-                            <h3 className={styles.newsTitle}>{article.title}</h3>
-                            <div className={styles.newsMeta}>
-                                <span className={styles.newsSource}>{article.source.name}</span>
-                                <span className={styles.newsDate}>
-                                    {new Date(article.publishedAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
-                                </span>
-                            </div>
-                            <p className={styles.newsDescription}>{article.description}</p>
-                        </div>
-                        <div className={styles.newsActions}>
-                            <button
-                                className={styles.newsLink}
-                                onClick={() => navigate(`/details/${idx}`, { state: { article } })}
-                            >
-                                Ver detalhes
-                            </button>
-                        </div>
+            {(error && category !== 'favorites') ?
+                <div className={styles.newsListPlaceholder}>
+                    <div style={{ textAlign: 'center', margin: '32px 0' }}>
+                        <img className={styles.notFoundImage} src={notFoundImg} alt="Macaquinho triste" />
+                        <p style={{ color: '#888', marginTop: 16, fontSize: 18 }}>
+                            Nenhuma notícia encontrada.<br />O macaquinho está trabalhando triste...
+                        </p>
                     </div>
-                ))}
-                {loading && <div className={styles.newsListPlaceholder}>Carregando mais notícias...</div>}
-            </div>
+                </div> :
+                <div className={styles.newsList}>
+                    {articles.map((article, idx) => (
+                        <div className={styles.newsCard} key={idx}>
+                            <div className={styles.newsImageWrap}>
+                                <button
+                                    className={isFavorite(article.url) ? styles.favStarActive : styles.favStar}
+                                    onClick={e => {
+                                        e.stopPropagation();
+                                        if (isFavorite(article.url)) {
+                                            removeFavorite(article.url);
+                                        } else {
+                                            addFavorite(article);
+                                        }
+                                    }}
+                                >
+                                    {isFavorite(article.url) ? '★' : '☆'}
+                                </button>
+                                {article.urlToImage ? (
+                                    <img src={article.urlToImage} alt={article.title} className={styles.newsImage} />
+                                ) : (
+                                    <div className={`${styles.newsImage} ${styles.newsImagePlaceholder}`}>📰</div>
+                                )}
+                            </div>
+                            <div className={styles.newsContent}>
+                                <h3 className={styles.newsTitle}>{article.title}</h3>
+                                <div className={styles.newsMeta}>
+                                    <span className={styles.newsSource}>{article.source.name}</span>
+                                    <span className={styles.newsDate}>
+                                        {new Date(article.publishedAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                    </span>
+                                </div>
+                                <p className={styles.newsDescription}>{article.description}</p>
+                            </div>
+                            <div className={styles.newsActions}>
+                                <button
+                                    className={styles.newsLink}
+                                    onClick={() => navigate(`/details/${idx}`, { state: { article } })}
+                                >
+                                    Ver detalhes
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                    {loading && <div className={styles.newsListPlaceholder}>Carregando mais notícias...</div>}
+                </div>
+            }
+
         </div>
     );
 };

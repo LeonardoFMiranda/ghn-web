@@ -32,8 +32,10 @@ const DetailsScreen: React.FC = () => {
       )}
       <p className={styles.detailsDescription}>{article.description}</p>
       <p className={styles.detailsContent}>{article.content}</p>
-      <a href={article.url} target="_blank" rel="noopener noreferrer" className={styles.newsLink}>Ver notícia original</a>
-      <button className={styles.newsLink} onClick={() => navigate('/')}>Voltar</button>
+      <div className={styles.detailsActions}>
+        <a href={article.url} target="_blank" rel="noopener noreferrer" className={styles.newsLink}>Ver notícia original</a>
+        <button className={styles.newsLink} onClick={() => navigate(-1)}>Voltar</button>
+      </div>
     </div>
   );
 };

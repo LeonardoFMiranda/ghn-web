@@ -1,0 +1,104 @@
+.header {
+  background: #fff;
+  box-shadow: 0 2px 16px 0 #d7263d22;
+  margin-top: 16px;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid #d7263d11;
+}
+
+.navBar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+}
+
+.navLogo {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #d7263d;
+  text-decoration: none;
+  letter-spacing: 2px;
+  transition: color 0.2s;
+  margin: 0 auto;
+}
+
+.navLogo:hover {
+  color: #a81c2a;
+}
+
+.navSearchInput {
+  position: absolute;
+  right: 24px;
+  width: 220px;
+  max-width: 50vw;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1.5px solid #e0e0e0;
+  background: #f9f9f9;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+.searchContainer {
+  position: absolute;
+  right: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.navSearchButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: #d7263d;
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.navSearchButton:hover {
+  background-color: transparent;
+}
+
+.navSearchInput {
+  width: 0;
+  opacity: 0;
+  margin-left: 0;
+  padding: 0;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  background: #f9f9f9;
+  font-size: 1rem;
+  transition: width 0.4s cubic-bezier(.4,0,.2,1), opacity 0.3s, margin 0.3s, padding 0.3s;
+  pointer-events: none;
+}
+
+.searchContainer:hover .navSearchInput,
+.searchContainer:focus-within .navSearchInput {
+  width: 180px;
+  opacity: 1;
+  margin: 0 8px 0 8px;
+  padding: 10px 16px;
+  pointer-events: auto;
+}
+
+@media (max-width: 700px) {
+  .navSearchInput {
+    right: 8px;
+    width: 120px;
+    font-size: 0.95rem;
+    padding: 8px 10px;
+  }
+  .searchContainer {
+    right: 8px;
+  }
+  .searchContainer:hover .navSearchInput,
+  .searchContainer:focus-within .navSearchInput {
+    width: 100px;
+    padding: 8px 10px;
+  }
+}

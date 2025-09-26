@@ -1,9 +1,12 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import HomeScreen from './pages/HomeScreen/HomeScreen';
 import DetailsScreen from './pages/DetailsScreen/DetailsScreen';
+import BuscaScreen from './pages/BuscaScreen/BuscaScreen';
 import './App.css';
 import { FavoritesProvider } from './context/FavoritesContext';
 import { ArticlesCacheProvider } from './context/ArticlesCacheContext';
+import Footer from './components/Footer/Footer';
+import Header from './components/Header/Header';
 
 function App() {
   return (
@@ -11,20 +14,15 @@ function App() {
       <FavoritesProvider>
         <Router>
           <div className="app-bg">
-            <header className="app-header">
-              <nav className="nav-bar">
-                <Link to="/" className="nav-logo">📰 NewsWave</Link>
-              </nav>
-            </header>
+            <Header/>
             <main className="main-content">
               <Routes>
                 <Route path="/" element={<HomeScreen />} />
                 <Route path="/details/:id" element={<DetailsScreen />} />
+                <Route path="/busca/:query" element={<BuscaScreen />} />
               </Routes>
             </main>
-            <footer className="app-footer">
-              <span>Feito por LeonardoFMiranda &copy; {new Date().getFullYear()}</span>
-            </footer>
+            <Footer/>
           </div>
         </Router>
       </FavoritesProvider>
