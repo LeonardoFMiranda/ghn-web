@@ -11,13 +11,6 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 const PAGE_SIZE = 10;
 const categories = [
     { label: 'Tudo', value: 'news' },
-    { label: 'Tecnologia', value: 'technology' },
-    { label: 'Negócios', value: 'business' },
-    { label: 'Esportes', value: 'sports' },
-    { label: 'Saúde', value: 'health' },
-    { label: 'Ciência', value: 'science' },
-    { label: 'Entretenimento', value: 'entertainment' },
-    { label: 'Favoritos', value: 'favorites' }
 ];
 
 const HomeScreen: React.FC = () => {
@@ -35,42 +28,35 @@ const HomeScreen: React.FC = () => {
     const fetchArticles = async (currentPage: number, selectedCategory: string) => {
         setLoading(true);
         try {
-            if (selectedCategory === 'favorites') {
-                const stored = localStorage.getItem('favorites');
-                const favArticles = stored ? JSON.parse(stored) as Article[] : [];
-                setArticles(favArticles);
-                setRawArticles(favArticles);
-            } else {
-                if (cache[selectedCategory]?.[currentPage]) {
-                    const cachedArticles = cache[selectedCategory][currentPage];
-                    if (currentPage === 1) {
-                        setArticles(cachedArticles);
-                        setRawArticles(cachedArticles);
-                    } else {
-                        setArticles(prev => [...prev, ...cachedArticles]);
-                        setRawArticles(prev => [...prev, ...cachedArticles]);
-                    }
-                    setLoading(false);
-                    return;
-                }
-                const res = await fetch(`${API_URL}?q=${selectedCategory}&pageSize=${PAGE_SIZE}&page=${currentPage}&language=pt&apiKey=${API_KEY}`);
-
-                const data = await res.json();
-                const newArticles = data.articles || [];
-                setCache(prev => ({
-                    ...prev,
-                    [selectedCategory]: {
-                        ...(prev[selectedCategory] || {}),
-                        [currentPage]: newArticles,
-                    }
-                }));
+            if (cache[selectedCategory]?.[currentPage]) {
+                const cachedArticles = cache[selectedCategory][currentPage];
                 if (currentPage === 1) {
-                    setArticles(newArticles);
-                    setRawArticles(newArticles);
+                    setArticles(cachedArticles);
+                    setRawArticles(cachedArticles);
                 } else {
-                    setArticles(prev => [...prev, ...newArticles]);
-                    setRawArticles(prev => [...prev, ...newArticles]);
+                    setArticles(prev => [...prev, ...cachedArticles]);
+                    setRawArticles(prev => [...prev, ...cachedArticles]);
                 }
+                setLoading(false);
+                return;
+            }
+            const res = await fetch(`${API_URL}?q=${selectedCategory}&pageSize=${PAGE_SIZE}&page=${currentPage}&language=pt&apiKey=${API_KEY}`);
+
+            const data = await res.json();
+            const newArticles = data.articles || [];
+            setCache(prev => ({
+                ...prev,
+                [selectedCategory]: {
+                    ...(prev[selectedCategory] || {}),
+                    [currentPage]: newArticles,
+                }
+            }));
+            if (currentPage === 1) {
+                setArticles(newArticles);
+                setRawArticles(newArticles);
+            } else {
+                setArticles(prev => [...prev, ...newArticles]);
+                setRawArticles(prev => [...prev, ...newArticles]);
             }
         } catch (err) {
             setError('Erro ao buscar notícias.');
@@ -100,18 +86,18 @@ const HomeScreen: React.FC = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [loading, isSearching]);
 
-    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const query = event.target.value.toLowerCase();
-        setIsSearching(!!query);
-        if (query === '') {
-            setArticles(rawArticles);
-        } else {
-            const filteredArticles = rawArticles.filter(article =>
-                article.title.toLowerCase().includes(query)
-            );
-            setArticles(filteredArticles);
-        }
-    };
+    // const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     const query = event.target.value.toLowerCase();
+    //     setIsSearching(!!query);
+    //     if (query === '') {
+    //         setArticles(rawArticles);
+    //     } else {
+    //         const filteredArticles = rawArticles.filter(article =>
+    //             article.title.toLowerCase().includes(query)
+    //         );
+    //         setArticles(filteredArticles);
+    //     }
+    // };
 
     const isFavorite = (url: string) => {
         return favorites.some(fav => fav.url === url);
@@ -119,27 +105,7 @@ const HomeScreen: React.FC = () => {
 
     return (
         <div className={styles.feedContainer}>
-            <h2 className={styles.feedTitle}>Descubra as últimas notícias</h2>
-            <div className={styles.feedFilters}>
-                <div className={styles.feedNavContainer}>
-                    <input className={styles.feedSearch} type="text" onChange={handleSearch} placeholder="Busca rápida..." />
-                    <div className={styles.feedCategoryContainer}>
-                        {categories.map((cat, idx) => {
-                            const isActive = category === cat.value;
-                            return (
-                                <button
-                                    key={idx}
-                                    className={isActive ? `${styles.feedCategoryButton} ${styles.activeCategory}` : styles.feedCategoryButton}
-                                    onClick={() => setCategory(cat.value)}
-                                >
-                                    {cat.label}
-                                </button>
-                            );
-                        })}
-                    </div>
-                </div>
-            </div>
-            {(error && category !== 'favorites') ?
+            {(error && category !== 'favorites') ? (
                 <div className={styles.newsListPlaceholder}>
                     <div style={{ textAlign: 'center', margin: '32px 0' }}>
                         <img className={styles.notFoundImage} src={notFoundImg} alt="Macaquinho triste" />
@@ -147,11 +113,55 @@ const HomeScreen: React.FC = () => {
                             Nenhuma notícia encontrada.<br />O macaquinho está trabalhando triste...
                         </p>
                     </div>
-                </div> :
-                <div className={styles.newsList}>
-                    {articles.map((article, idx) => (
-                        <div className={styles.newsCard} key={idx}>
-                            <div className={styles.newsImageWrap}>
+                </div>
+            ) : (
+                <>
+                    <div className={styles.mainNewsGrid}>
+                        {articles[0] && (
+                            <div
+                                className={styles.mainNewsCard}
+                                style={{ gridRow: '1 / span 2', gridColumn: '1 / 2' }}
+                                onClick={() => navigate(`/details/0`, { state: { article: articles[0] } })}
+                            >
+                                <button
+                                    className={isFavorite(articles[0].url) ? styles.favStarActive : styles.favStar}
+                                    onClick={e => {
+                                        e.stopPropagation();
+                                        if (isFavorite(articles[0].url)) {
+                                            removeFavorite(articles[0].url);
+                                        } else {
+                                            addFavorite(articles[0]);
+                                        }
+                                    }}
+                                >
+                                    {isFavorite(articles[0].url) ? '★' : '☆'}
+                                </button>
+                                {articles[0].urlToImage ? (
+                                    <img src={articles[0].urlToImage} alt={articles[0].title} className={styles.mainNewsImage} />
+                                ) : (
+                                    <div className={`${styles.mainNewsImage} ${styles.newsImagePlaceholder}`}>📰</div>
+                                )}
+                                <div className={styles.mainNewsContent}>
+                                    <h3 className={styles.mainNewsTitle}>{articles[0].title}</h3>
+                                    <div className={styles.mainNewsMeta}>
+                                        <span className={styles.mainNewsSource}>{articles[0].source.name}</span>
+                                        <span className={styles.mainNewsDate}>
+                                            {new Date(articles[0].publishedAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                        </span>
+                                    </div>
+                                    {articles[0].description && (
+                                        <p className={styles.mainNewsDescription}>{articles[0].description}</p>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                        {articles.slice(1, 3).map((article, idx) => (
+                            <div
+                                className={styles.mainNewsCard}
+                                style={{ gridRow: `${idx + 1} / span 1`, gridColumn: '2 / 3' }}
+                                key={idx + 1}
+                                onClick={() => navigate(`/details/${idx + 1}`, { state: { article } })}
+                            >
                                 <button
                                     className={isFavorite(article.url) ? styles.favStarActive : styles.favStar}
                                     onClick={e => {
@@ -166,35 +176,69 @@ const HomeScreen: React.FC = () => {
                                     {isFavorite(article.url) ? '★' : '☆'}
                                 </button>
                                 {article.urlToImage ? (
-                                    <img src={article.urlToImage} alt={article.title} className={styles.newsImage} />
+                                    <img src={article.urlToImage} alt={article.title} className={styles.mainNewsImage} />
                                 ) : (
-                                    <div className={`${styles.newsImage} ${styles.newsImagePlaceholder}`}>📰</div>
+                                    <div className={`${styles.mainNewsImage} ${styles.newsImagePlaceholder}`}>📰</div>
                                 )}
-                            </div>
-                            <div className={styles.newsContent}>
-                                <h3 className={styles.newsTitle}>{article.title}</h3>
-                                <div className={styles.newsMeta}>
-                                    <span className={styles.newsSource}>{article.source.name}</span>
-                                    <span className={styles.newsDate}>
-                                        {new Date(article.publishedAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
-                                    </span>
+                                <div className={styles.mainNewsContent}>
+                                    <h3 className={styles.mainNewsTitle}>{article.title}</h3>
+                                    <div className={styles.mainNewsMeta}>
+                                        <span className={styles.mainNewsSource}>{article.source.name}</span>
+                                        <span className={styles.mainNewsDate}>
+                                            {new Date(article.publishedAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                        </span>
+                                    </div>
                                 </div>
-                                <p className={styles.newsDescription}>{article.description}</p>
                             </div>
-                            <div className={styles.newsActions}>
-                                <button
-                                    className={styles.newsLink}
-                                    onClick={() => navigate(`/details/${idx}`, { state: { article } })}
-                                >
-                                    Ver detalhes
-                                </button>
+                        ))}
+                    </div>
+                    <div className={styles.newsList}>
+                        {articles.slice(3).map((article, idx) => (
+                            <div className={styles.newsListItem} key={idx + 3}>
+                                <div className={styles.newsListImageWrap}>
+                                    <button
+                                        className={isFavorite(article.url) ? styles.favStarActive : styles.favStar}
+                                        onClick={e => {
+                                            e.stopPropagation();
+                                            if (isFavorite(article.url)) {
+                                                removeFavorite(article.url);
+                                            } else {
+                                                addFavorite(article);
+                                            }
+                                        }}
+                                    >
+                                        {isFavorite(article.url) ? '★' : '☆'}
+                                    </button>
+                                    {article.urlToImage ? (
+                                        <img src={article.urlToImage} alt={article.title} className={styles.newsListImage} />
+                                    ) : (
+                                        <div className={`${styles.newsListImage} ${styles.newsImagePlaceholder}`}>📰</div>
+                                    )}
+                                </div>
+                                <div className={styles.newsListContent}>
+                                    <h3 className={styles.newsTitle}>{article.title}</h3>
+                                    <div className={styles.newsMeta}>
+                                        <span className={styles.newsSource}>{article.source.name}</span>
+                                        <span className={styles.newsDate}>
+                                            {new Date(article.publishedAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                        </span>
+                                    </div>
+                                    <p className={styles.newsDescription}>{article.description}</p>
+                                    <div className={styles.newsActions}>
+                                        <button
+                                            className={styles.newsLink}
+                                            onClick={() => navigate(`/details/${idx + 3}`, { state: { article } })}
+                                        >
+                                            Ver detalhes
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                    {loading && <div className={styles.newsListPlaceholder}>Carregando mais notícias...</div>}
-                </div>
-            }
-
+                        ))}
+                        {loading && <div className={styles.newsListPlaceholder}>Carregando mais notícias...</div>}
+                    </div>
+                </>
+            )}
         </div>
     );
 };

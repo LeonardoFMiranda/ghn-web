@@ -1,10 +1,10 @@
 .favStar {
     position: absolute;
-    top: -18px;
-    right: -24px;
+    top: 10px;
+    right: 10px;
     background: transparent;
     border: none;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #fbbf24;
     cursor: pointer;
     z-index: 2;
@@ -18,12 +18,12 @@
 
 .favStarActive {
     position: absolute;
-    top: -18px;
-    right: -24px;
+    top: 10px;
+    right: 10px;
     background: transparent;
     border: none;
-    font-size: 2rem;
-    color: #fff200;
+    font-size: 1.5rem;
+    color: #ffd600;
     cursor: pointer;
     z-index: 2;
 }
@@ -57,9 +57,7 @@
     max-width: 1100px;
     margin: 40px auto 0 auto;
     padding: 0 24px 40px 24px;
-    background: #fff;
     border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 
 .feedTitle {
@@ -149,111 +147,52 @@
 }
 
 .newsList {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 32px;
-    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
 }
 
-.newsCard {
+.newsListItem {
+    display: flex;
+    flex-direction: row;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.15s, box-shadow 0.15s;
-    cursor: pointer;
-    border: 1px solid #f0f0f0;
+    min-height: 120px;
 }
 
-.newsCard:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 8px 32px rgba(215, 38, 61, 0.10);
-    border-color: #d7263d22;
-}
-
-.newsImageWrap {
+.newsListImageWrap {
     position: relative;
-    width: 100%;
-    height: 180px;
+    flex: 1 1 0;
+    max-width: 33.33%;
+    min-width: 120px;
     background: #f4f4f4;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.newsImage {
+.newsListImage {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-bottom: 1px solid #eee;
+    min-height: 120px;
 }
 
-.notFoundImage {
-    width: 450px;
-    height: 350px;
-    margin-bottom: 16px;
-}
-
-.newsImagePlaceholder {
-    font-size: 3rem;
-    color: #d7263d;
-    background: #f4f4f4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-}
-
-.favStar,
-.favStarActive {
-    position: absolute;
-    top: -16px;
-    right: -22px;
-    font-size: 1.7rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 2;
-    transition: color 0.2s, text-shadow 0.2s;
-}
-
-.favStar:hover,
-.favStarActive:hover {
-    position: absolute;
-    top: -16px;
-    right: -22px;
-    font-size: 1.7rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 2;
-    transition: color 0.2s, text-shadow 0.2s;
-}
-
-.favStar {
-    color: #bbb;
-}
-
-.favStarActive {
-    color: #ece911;
-}
-
-.newsContent {
-    padding: 18px 16px 8px 16px;
-    flex: 1;
+.newsListContent {
+    flex: 2 1 0;
+    padding: 18px 20px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    justify-content: center;
 }
 
 .newsTitle {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     font-weight: 700;
+    margin-bottom: 6px;
     color: #222;
-    margin-bottom: 4px;
-    line-height: 1.2;
 }
 
 .newsMeta {
@@ -281,7 +220,7 @@
 }
 
 .newsActions {
-    padding: 10px 16px 16px 16px;
+    margin-top: 12px;
     display: flex;
     justify-content: flex-end;
 }
@@ -312,21 +251,135 @@
     font-weight: 600;
 }
 
-@media (max-width: 700px) {
-    .feedContainer {
-        padding: 0 8px 24px 8px;
-    }
+.mainNewsGrid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+    min-height: 340px;
+}
 
-    .newsList {
+.mainNewsCard {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: #222;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+.mainNewsCard:hover {
+    transform: scale(1.02);
+}
+
+.mainNewsImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    filter: brightness(0.65);
+}
+
+.mainNewsContent {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    color: #fff;
+    padding: 24px 20px 20px 20px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.65) 60%, rgba(0, 0, 0, 0.1) 100%, transparent 100%);
+    border-radius: 0 0 16px 16px;
+}
+
+.mainNewsTitle {
+    text-align: center;
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #fff;
+    line-height: 1.2;
+    text-shadow: 0 2px 8px #0008;
+}
+
+.mainNewsMeta {
+    font-size: 0.98rem;
+    color: #f4f4f4;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    text-shadow: 0 2px 8px #0008;
+}
+
+.mainNewsSource {
+    font-weight: 600;
+    color: #ffd600;
+}
+
+.mainNewsDate {
+    color: #eee;
+}
+
+.favStar,
+.favStarActive {
+    position: absolute;
+    top: -10px;
+    right: -15px;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+    color: #fff;
+    text-shadow: 0 2px 8px #000a;
+    transition: color 0.2s;
+}
+
+.favStarActive {
+    color: #ffd600;
+}
+
+.mainNewsDescription {
+    margin-top: 10px;
+    color: #f4f4f4;
+    font-size: 1.05rem;
+    text-shadow: 0 2px 8px #0008;
+    max-height: 3.6em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-clamp: 2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+@media (max-width: 900px) {
+    .mainNewsGrid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        grid-template-rows: repeat(3, 220px);
+        gap: 16px;
+        min-height: unset;
     }
-
-    .feedTitle {
-        font-size: 2rem;
+    .newsListItem {
+        flex-direction: column;
     }
-
-    .feedNavContainer {
-        gap: 12px;
+    .newsListImageWrap, .newsListImage {
+        max-width: 100%;
+        min-height: 160px;
+    }
+    .newsListContent {
+        padding: 14px 12px;
     }
 }

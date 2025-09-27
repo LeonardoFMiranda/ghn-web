@@ -44,13 +44,11 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: var(--primary);
+  background-color: transparent;
   color: #fff;
   cursor: pointer;
 }
-button:hover {
-  background-color: var(--primary-dark);
-}
+
 
 input, textarea {
   font-family: inherit;

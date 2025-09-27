@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './BuscaScreen.module.css';
 import notFoundImg from '../../assets/notFound.png';
+import type { Article } from '../../types/news';
 
 const API_URL = 'https://newsapi.org/v2/everything';
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -27,15 +28,23 @@ const BuscaScreen: React.FC = () => {
     useEffect(() => {
         if (!query) return;
         setLoading(true);
-        fetch(`${API_URL}?q=${encodeURIComponent(query)}&language=pt&apiKey=${API_KEY}`)
-            .then(res => res.json())
-            .then(data => {
-                const filtered = (data.articles || []).filter(
-                    (art: any) => !art.url?.includes('kk.org')
-                );
-                setArticles(filtered);
-            })
-            .finally(() => setLoading(false));
+        if (query === 'favoritos') {
+            const stored = localStorage.getItem('favorites');
+            const favArticles = stored ? JSON.parse(stored) as Article[] : [];
+            setArticles(favArticles);
+            setLoading(false);
+        } else {
+            fetch(`${API_URL}?q=${encodeURIComponent(query)}&language=pt&apiKey=${API_KEY}`)
+                .then(res => res.json())
+                .then(data => {
+                    const filtered = (data.articles || []).filter(
+                        (art: any) => !art.url?.includes('kk.org')
+                    );
+                    setArticles(filtered);
+                })
+                .finally(() => setLoading(false));
+        }
+
     }, [query]);
 
     return (
