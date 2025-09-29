@@ -1,73 +1,55 @@
-# React + TypeScript + Vite
+# 📰 News App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Um portal de notícias moderno feito em **React + TypeScript**, com busca, categorias, favoritos, destaques, scroll infinito e layout responsivo.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Instalação e Execução
 
-## React Compiler
+1. **Clone o repositório**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+   ```git clone https://github.com/seu-usuario/news-app.git```
+   ```cd news-app```
+   ```npm install```
+   
+2. **Instale as dependências**
+   ```npm install```
 
-## Expanding the ESLint configuration
+3. Configure a chave da NewsAPI
+   Crie um arquivo .env na raiz do projeto e adicione:
+   ```VITE_API_KEY=sua_chave_aqui```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+4. Execute o app
+   ```npm run dev```
+   O app estará disponível em:
+   http://localhost:5173 (ou na porta indicada pelo terminal)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## ✨ Principais Funcionalidades
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- 🔍 **Busca de notícias** com scroll infinito  
+- 📰 **Destaque para as 3 principais notícias** em um grid especial  
+- 📑 **Lista horizontal** para as demais notícias (imagem 1/3 + detalhes 2/3)  
+- ⭐ **Favoritos persistentes** via `localStorage`  
+- 📂 **Categorias** com menu lateral (sidebar) estilizado e as principais no header 
+- 📱 **Responsivo** para desktop e mobile  
+- ⏳ **Spinner de loading** e feedback visual para ausência de resultados  
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Decisões Técnicas
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **React + TypeScript** → Tipagem forte e melhor manutenção  
+- **Componentização** → Componentes reutilizáveis como `MainNewsGrid` e `NewsListHorizontal` para replicar layouts  
+- **NewsAPI** → Consumo da API pública, com filtro de idioma e domínios indesejados  
+- **CSS Modules** → Estilos isolados para evitar conflitos  
+- **Scroll infinito** → Implementado via evento de scroll + paginação da API  
+- **Persistência de favoritos** → `localStorage` para manter favoritos entre sessões  
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## 📸 Layout
+
+- Grid especial para destaques  
+- Lista horizontal para demais notícias  
+- Sidebar de categorias  
+- Totalmente responsivo  
