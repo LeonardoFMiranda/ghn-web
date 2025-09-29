@@ -4,14 +4,14 @@ import styles from './Header.module.css'
 
 const menuCategories = [
     { label: 'Tecnologia', value: 'tecnologia' },
-    { label: 'Negócios', value: 'negocios' },
+    { label: 'Negócios', value: 'negócios' },
     { label: 'Esportes', value: 'esportes' },
-    { label: 'Saúde', value: 'saude' },
-    { label: 'Ciência', value: 'ciencia' },
+    { label: 'Saúde', value: 'saúde' },
+    { label: 'Ciência', value: 'ciência' },
     { label: 'Entretenimento', value: 'entretenimento' },
     { label: 'Viagens', value: 'viagens' },
     { label: 'Gastronomia', value: 'gastronomia' },
-    { label: 'Educação', value: 'educação' },
+    { label: 'Educação', value: 'education' },
     { label: 'Programação', value: 'programação' },
     { label: 'Investimentos', value: 'investimentos' },
     { label: 'Sustentabilidade', value: 'sustentabilidade' },
