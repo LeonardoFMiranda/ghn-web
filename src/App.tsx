@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomeScreen from './pages/HomeScreen/HomeScreen';
 import DetailsScreen from './pages/DetailsScreen/DetailsScreen';
 import BuscaScreen from './pages/BuscaScreen/BuscaScreen';
