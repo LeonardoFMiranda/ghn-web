@@ -1,0 +1,131 @@
+.mainNewsGrid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+    min-height: 340px;
+}
+
+.mainNewsCard {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: #222;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+.mainNewsCard:hover {
+    transform: scale(1.02);
+}
+
+.mainNewsImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    filter: brightness(0.65);
+}
+
+.mainNewsContent {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    color: #fff;
+    padding: 24px 20px 20px 20px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.65) 60%, rgba(0, 0, 0, 0.1) 100%, transparent 100%);
+    border-radius: 0 0 16px 16px;
+}
+
+.mainNewsTitle {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #fff;
+    line-height: 1.2;
+    text-shadow: 0 2px 8px #0008;
+}
+
+.mainNewsMeta {
+    font-size: 0.98rem;
+    color: #f4f4f4;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    text-shadow: 0 2px 8px #0008;
+}
+
+.mainNewsSource {
+    font-weight: 600;
+    color: #ffd600;
+}
+
+.mainNewsDate {
+    color: #eee;
+}
+
+.favStar,
+.favStarActive {
+    position: absolute;
+    top: -10px;
+    right: -15px;
+    font-size: 1.7rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 3;
+    color: #fff;
+    text-shadow: 0 2px 8px #000a;
+    transition: all 0.2s;
+}
+
+.favStar:hover {
+    color: #fff200;
+    transform: scale(1.15);
+}
+
+.favStarActive {
+    color: #ffd600;
+}
+
+.favStarActive {
+    transform: scale(1.15);
+}
+
+
+.mainNewsDescription {
+    margin-top: 10px;
+    color: #f4f4f4;
+    font-size: 1.05rem;
+    text-shadow: 0 2px 8px #0008;
+    max-height: 3.6em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-clamp: 2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+@media (max-width: 900px) {
+    .mainNewsGrid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 220px);
+        gap: 16px;
+        min-height: unset;
+    }
+}

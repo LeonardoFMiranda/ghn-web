@@ -58,17 +58,14 @@ const Header: React.FC = () => {
     return (
         <header className={styles.header}>
             <nav className={styles.navBar}>
-                <button
-                    className={styles.menuButton}
-                    aria-label="Abrir menu de categorias"
-                >
-                    <span onClick={() => setSidebarOpen(true)} className={styles.menuIcon}>
-                        <span />
-                        <span />
-                        <span />
-                    </span>
-                    <Link to="/" className={styles.navLogo}>GHN</Link>
-                </button>
+
+                <span onClick={() => setSidebarOpen(true)} className={styles.menuIcon}>
+                    <span />
+                    <span />
+                    <span />
+                </span>
+                <Link to="/" className={styles.navLogo}>GHN</Link>
+
 
                 {categories.map((cat, idx) => {
                     const isActive = category === cat.value;
