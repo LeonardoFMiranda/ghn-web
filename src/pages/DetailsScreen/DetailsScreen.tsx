@@ -7,8 +7,6 @@ const DetailsScreen: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const article = (location.state as { article?: Article })?.article;
-  console.log(article);
-
   if (!article) {
     return (
       <div className={styles.detailsContainer}>
