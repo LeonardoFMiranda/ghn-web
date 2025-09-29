@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styles from './HomeScreen.module.css';
 import type { Article } from '../../types/news';
 import { useFavorites } from '../../context/FavoritesContext';

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styles from './BuscaScreen.module.css';
 import notFoundImg from '../../assets/notFound.png';
 import type { Article } from '../../types/news';
@@ -17,9 +17,8 @@ const BuscaScreen: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [firstLoad, setFirstLoad] = useState(true);
     const { favorites, addFavorite, removeFavorite } = useFavorites();
-    const [isSearching, setIsSearching] = useState(false);
+    const [isSearching] = useState(false);
     const [page, setPage] = useState(1);
-    const navigate = useNavigate();
 
     const isFavorite = (url: string) => {
         return favorites.some(fav => fav.url === url);
