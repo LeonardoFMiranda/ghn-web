@@ -23,10 +23,6 @@ const MainNewsGrid: React.FC<MainNewsGridProps> = ({
       {articles.map((article, idx) => (
         <div
           className={styles.mainNewsCard}
-          style={idx === 0
-            ? { gridRow: '1 / span 2', gridColumn: '1 / 2' }
-            : { gridRow: `${idx} / span 1`, gridColumn: '2 / 3' }
-          }
           key={idx}
           onClick={() => navigate(`/details/main-${idx}`, { state: { article } })}
         >

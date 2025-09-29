@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './Header.module.css'
-import type { Article } from '../../types/news';
-import { useFavorites } from '../../context/FavoritesContext';
-import { useArticlesCache } from '../../context/ArticlesCacheContext';
 
 const menuCategories = [
     { label: 'Tecnologia', value: 'tecnologia' },
@@ -18,7 +15,8 @@ const menuCategories = [
     { label: 'Programação', value: 'programação' },
     { label: 'Investimentos', value: 'investimentos' },
     { label: 'Sustentabilidade', value: 'sustentabilidade' },
-    { label: 'Lifestyle', value: 'lifestyle' }
+    { label: 'Lifestyle', value: 'lifestyle' },
+    { label: 'Favoritos', value: 'favoritos' }
 ];
 
 const categories = [
@@ -67,19 +65,21 @@ const Header: React.FC = () => {
                 <Link to="/" className={styles.navLogo}>GHN</Link>
 
 
-                {categories.map((cat, idx) => {
-                    const isActive = category === cat.value;
-                    return (
-                        <Link
-                            to={`/busca/${cat.value}`}
-                            key={idx}
-                            className={isActive ? `${styles.headerCategoryButton} ${styles.activeCategory}` : styles.headerCategoryButton}
-                            onClick={() => setCategory(cat.value)}
-                        >
-                            {cat.label}
-                        </Link>
-                    );
-                })}
+                <ul className={styles.headerCategories}>
+                    {categories.map((cat, idx) => {
+                        const isActive = category === cat.value;
+                        return (
+                            <Link
+                                to={`/busca/${cat.value}`}
+                                key={idx}
+                                className={isActive ? `${styles.headerCategoryButton} ${styles.activeCategory}` : styles.headerCategoryButton}
+                                onClick={() => setCategory(cat.value)}
+                            >
+                                {cat.label}
+                            </Link>
+                        );
+                    })}
+                </ul>
                 <div className={styles.searchContainer}>
                     <button className={styles.navSearchButton} tabIndex={-1} aria-label="Buscar">
                         <svg width="20" height="20" fill="none" viewBox="0 0 20 20">
