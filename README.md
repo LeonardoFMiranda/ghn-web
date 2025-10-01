@@ -1,4 +1,4 @@
-# 📰 News App
+# 📰 GitHub News
 
 Um portal de notícias moderno feito em **React + TypeScript**, com busca, categorias, favoritos, destaques, scroll infinito e layout responsivo.
 
