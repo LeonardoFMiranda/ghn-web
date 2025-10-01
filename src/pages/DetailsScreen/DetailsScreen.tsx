@@ -2,6 +2,8 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './DetailsScreen.module.css';
 import type { Article } from '../../types/news';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const DetailsScreen: React.FC = () => {
   const location = useLocation();
@@ -32,8 +34,8 @@ const DetailsScreen: React.FC = () => {
       <p className={styles.detailsDescription}>{article.description}</p>
       <p className={styles.detailsContent}>{article.content}</p>
       <div className={styles.detailsActions}>
-        <a href={article.url} target="_blank" rel="noopener noreferrer" className={styles.newsLink}>Ver notícia original</a>
-        <button className={styles.newsLink} onClick={() => navigate(-1)}>Voltar</button>
+        <a href={article.url} target="_blank" rel="noopener noreferrer" className={styles.newsLink}><OpenInNewIcon sx={{ fontSize: 20 }} /> Ver notícia original</a>
+        <button className={styles.detailsBackButton} onClick={() => navigate(-1)}><ArrowBackIcon sx={{ fontSize: 20 }} /> Voltar</button>
       </div>
     </div>
   );

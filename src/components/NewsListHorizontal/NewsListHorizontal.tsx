@@ -2,13 +2,15 @@ import React from 'react';
 import styles from './NewsListHorizontal.module.css';
 import type { Article } from '../../types/news';
 import { useNavigate } from 'react-router-dom';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 interface NewsListHorizontalProps {
   articles: Article[];
   isFavorite: (url: string) => boolean;
   addFavorite: (article: Article) => void;
   removeFavorite: (url: string) => void;
-  startIndex?: number; 
+  startIndex?: number;
 }
 
 const NewsListHorizontal: React.FC<NewsListHorizontalProps> = ({
@@ -23,7 +25,7 @@ const NewsListHorizontal: React.FC<NewsListHorizontalProps> = ({
   return (
     <div className={styles.newsList}>
       {articles.map((article, idx) => (
-        <div className={styles.newsListItem} key={idx + startIndex}>
+        <div className={styles.newsListItem} key={idx + startIndex} onClick={() => navigate(`/details/${idx + startIndex}`, { state: { article } })}>
           <div className={styles.newsListImageWrap}>
             <button
               className={isFavorite(article.url) ? styles.favStarActive : styles.favStar}
@@ -36,7 +38,7 @@ const NewsListHorizontal: React.FC<NewsListHorizontalProps> = ({
                 }
               }}
             >
-              {isFavorite(article.url) ? '★' : '☆'}
+              {isFavorite(article.url) ? <StarIcon sx={{ fontSize: 20 }} /> : <StarBorderIcon sx={{ fontSize: 20 }} />}
             </button>
             {article.urlToImage ? (
               <img src={article.urlToImage} alt={article.title} className={styles.newsListImage} />
@@ -53,14 +55,6 @@ const NewsListHorizontal: React.FC<NewsListHorizontalProps> = ({
               </span>
             </div>
             <p className={styles.newsDescription}>{article.description}</p>
-            <div className={styles.newsActions}>
-              <button
-                className={styles.newsLink}
-                onClick={() => navigate(`/details/${idx + startIndex}`, { state: { article } })}
-              >
-                Ver detalhes
-              </button>
-            </div>
           </div>
         </div>
       ))}

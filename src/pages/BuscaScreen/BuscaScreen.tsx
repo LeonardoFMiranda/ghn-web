@@ -6,6 +6,7 @@ import type { Article } from '../../types/news';
 import MainNewsGrid from '../../components/MainNewsGrid/MainNewsGrid';
 import NewsListHorizontal from '../../components/NewsListHorizontal/NewsListHorizontal';
 import { useFavorites } from '../../context/FavoritesContext';
+import { useArticlesCache } from '../../context/ArticlesCacheContext';
 
 const API_URL = 'https://newsapi.org/v2/everything';
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -19,6 +20,7 @@ const BuscaScreen: React.FC = () => {
     const { favorites, addFavorite, removeFavorite } = useFavorites();
     const [isSearching] = useState(false);
     const [page, setPage] = useState(1);
+    const { cache, setCache } = useArticlesCache();
 
     const isFavorite = (url: string) => {
         return favorites.some(fav => fav.url === url);
@@ -32,18 +34,41 @@ const BuscaScreen: React.FC = () => {
             setArticles(favArticles);
             setLoading(false);
         } else {
-            fetch(`${API_URL}?q=${encodeURIComponent(query)}&language=pt&apiKey=${API_KEY}&pageSize=${PAGE_SIZE}&page=${currentPage}`)
-                .then(res => res.json())
-                .then(data => {
-                    const filtered = (data.articles || []).filter(
-                        (art: any) => !art.url?.includes('kk.org')
-                    );
-                    setArticles(prevArticles => [...prevArticles, ...filtered]);
-                })
-                .finally(() => {
-                    setLoading(false);
-                    setFirstLoad(false);
-                });
+            if (cache[query]?.[currentPage]) {
+                const cachedArticles = cache[query][currentPage];
+                if (currentPage === 1) {
+                    setArticles(cachedArticles);
+                } else {
+                    setArticles(prev => [...prev, ...cachedArticles]);
+                }
+                setLoading(false);
+                return;
+            } else {
+                fetch(`${API_URL}?q=${encodeURIComponent(query)}&language=pt&apiKey=${API_KEY}&pageSize=${PAGE_SIZE}&page=${currentPage}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const filtered = (data.articles || []).filter(
+                            (art: any) => !art.url?.includes('kk.org')
+                        );
+                        setCache(prev => ({
+                            ...prev,
+                            [query]: {
+                                ...(prev[query] || {}),
+                                [currentPage]: filtered,
+                            }
+                        }));
+                        if (currentPage === 1) {
+                            setArticles(filtered);
+                        } else {
+                            setArticles(prev => [...prev, ...filtered]);
+                        }
+                    })
+                    .finally(() => {
+                        setLoading(false);
+                        setFirstLoad(false);
+                    });
+            }
+
         }
     };
 
@@ -98,19 +123,36 @@ const BuscaScreen: React.FC = () => {
                 </div>
             ) : (
                 <>
-                    <MainNewsGrid
-                        articles={mainArticles}
-                        isFavorite={isFavorite}
-                        addFavorite={addFavorite}
-                        removeFavorite={removeFavorite}
-                    />
-                    <NewsListHorizontal
-                        articles={listArticles}
-                        isFavorite={isFavorite}
-                        addFavorite={addFavorite}
-                        removeFavorite={removeFavorite}
-                        startIndex={3}
-                    />
+                    {query === 'favoritos' && (
+                        <div>
+                            <h3>Notícias Favoritas</h3>
+                        </div>
+                    )}
+                    {mainArticles.length > 0 && (
+                        <MainNewsGrid
+                            articles={mainArticles}
+                            isFavorite={isFavorite}
+                            addFavorite={addFavorite}
+                            removeFavorite={removeFavorite}
+                        />
+                    )}
+                    {listArticles.length > 0 && (
+                        <>
+                            <h2 className={styles.newsListTitle}>Mais Notícias</h2>
+                            <NewsListHorizontal
+                                articles={listArticles}
+                                isFavorite={isFavorite}
+                                addFavorite={addFavorite}
+                                removeFavorite={removeFavorite}
+                                startIndex={3}
+                            />
+                        </>
+                    )}
+                    {loading && (
+                        <div className='spinner' style={{ margin: '16px 0' }}>
+                            <div className='spinnerCircle'></div>
+                        </div>
+                    )}
                 </>
             )}
         </div>

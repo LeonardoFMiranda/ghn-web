@@ -16,7 +16,7 @@ const categories = [
 
 const MAIN_SEARCHES = [
     "trump",
-    "lula",
+    "brasil",
     "onu"
 ];
 
@@ -47,7 +47,6 @@ const HomeScreen: React.FC = () => {
                 return;
             }
             const res = await fetch(`${API_URL}?q=${selectedCategory}&pageSize=${PAGE_SIZE}&page=${currentPage}&language=pt&apiKey=${API_KEY}`);
-
             const data = await res.json();
             const newArticles = data.articles || [];
             setCache(prev => ({

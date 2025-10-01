@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './MainNewsGrid.module.css';
 import type { Article } from '../../types/news';
 import { useNavigate } from 'react-router-dom';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 interface MainNewsGridProps {
   articles: Article[];
@@ -17,6 +19,11 @@ const MainNewsGrid: React.FC<MainNewsGridProps> = ({
   removeFavorite,
 }) => {
   const navigate = useNavigate();
+
+  const reduzirText = (text: string, maxLength: number = 80) => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength).trim() + '...';
+  };
 
   return (
     <div className={styles.mainNewsGrid}>
@@ -37,7 +44,7 @@ const MainNewsGrid: React.FC<MainNewsGridProps> = ({
               }
             }}
           >
-            {isFavorite(article.url) ? '★' : '☆'}
+            {isFavorite(article.url) ? <StarIcon sx={{ fontSize: 20 }} /> : <StarBorderIcon sx={{ fontSize: 20 }} />}
           </button>
           {article.urlToImage ? (
             <img src={article.urlToImage} alt={article.title} className={styles.mainNewsImage} />
@@ -45,7 +52,7 @@ const MainNewsGrid: React.FC<MainNewsGridProps> = ({
             <div className={`${styles.mainNewsImage} ${styles.newsImagePlaceholder}`}>📰</div>
           )}
           <div className={styles.mainNewsContent}>
-            <h3 className={styles.mainNewsTitle}>{article.title}</h3>
+            <h3 className={styles.mainNewsTitle}>{reduzirText(article.title)}</h3>
             <div className={styles.mainNewsMeta}>
               <span className={styles.mainNewsSource}>{article.source.name}</span>
               <span className={styles.mainNewsDate}>
