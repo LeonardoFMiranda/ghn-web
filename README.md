@@ -8,19 +8,31 @@ Um portal de notícias moderno feito em **React + TypeScript**, com busca, categ
 
 1. **Clone o repositório**
 
-   ```git clone https://github.com/seu-usuario/news-app.git```
-   ```cd news-app```
-   ```npm install```
+   ```bash
+   git clone [https://github.com/seu-usuario/news-app.git](https://github.com/LeonardoFMiranda/news-app-web.git)
+   ```
+   ```bash
+   cd news-app
+   ```
+   ```bash
+   npm install
+   ```
    
-2. **Instale as dependências**
-   ```npm install```
+3. **Instale as dependências**
+   ```bash
+   npm install
+   ```
 
-3. Configure a chave da NewsAPI
+5. Configure a chave da NewsAPI
    Crie um arquivo .env na raiz do projeto e adicione:
-   ```VITE_API_KEY=sua_chave_aqui```
+   ```bash
+   VITE_API_KEY=sua_chave_aqui
+   ```
 
-4. Execute o app
-   ```npm run dev```
+7. Execute o app
+   ```bash
+   npm run dev
+   ```
    O app estará disponível em:
    http://localhost:5173 (ou na porta indicada pelo terminal)
 
