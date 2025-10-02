@@ -1,5 +1,5 @@
 .detailsContainer {
-  width: 70%;
+  width: 80%;
   background: rgba(255, 255, 255, 0.07);
   border-radius: 24px;
   box-shadow: 0 4px 32px 0 #0f172a22;
@@ -28,6 +28,16 @@
   margin-bottom: 1.5rem;
   text-align: center;
   font-weight: 600;
+}
+
+.detailsMeta{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.newsSource {
+  color: #38bdf8;
 }
 
 .detailsPlaceholder {
