@@ -12,7 +12,7 @@ Um portal de notícias moderno feito em **React + TypeScript**, com busca, categ
    git clone https://github.com/LeonardoFMiranda/ghn-web.git
    ```
    ```bash
-   cd news-app
+   cd ghn-web
    ```
    ```bash
    npm install
