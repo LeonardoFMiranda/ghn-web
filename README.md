@@ -9,7 +9,7 @@ Um portal de notícias moderno feito em **React + TypeScript**, com busca, categ
 1. **Clone o repositório**
 
    ```bash
-   git clone [https://github.com/seu-usuario/news-app.git](https://github.com/LeonardoFMiranda/news-app-web.git)
+   git clone https://github.com/LeonardoFMiranda/ghn-web.git
    ```
    ```bash
    cd news-app
